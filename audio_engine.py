@@ -51,6 +51,7 @@ class Tone:
         
     @staticmethod
     def square(freq, duration=1, speaker=None):
+        Tone.stop() #will stop old sound before new one
         #volume lowered so it won't hurt ears
         amplitude = (2 ** (bits - 1) -1) * 0.5
 
@@ -76,6 +77,7 @@ class Tone:
 
     @staticmethod
     def white_noise(duration=1, speaker=None):
+        Tone.stop() #will stop old sound before new one
         #volume lowered more for noise
         amplitude = (2 ** (bits - 1) -1) * 0.3
 
