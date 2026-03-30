@@ -16,12 +16,18 @@ pygame.init()
 class Tone:
 
     @staticmethod 
-    def sine(freq, duration=1, speaker=None):
+    def stop():
+        #This will stop any sounds currently playing
+        pygame.mixer.stop()
+
+    @staticmethod 
+    def sine(freq, speaker=None):
+        Tone.stop() #will stop old sound before new one
         #max volume for 16 bit audio
         amplitude = 2 ** (bits - 1) - 1
 
         #to generate time array using numpy
-        t = numpy.linspace(0, duration, int(sample_rate * duration), False)
+        t = numpy.linspace(0, 1,sample_rate, False)
 
         # formula thing for sine wave
         wave = amplitude * numpy.sin(2 * numpy.pi * freq * t)
@@ -35,13 +41,14 @@ class Tone:
         elif speaker == 'l':
             sound_buffer[:, 0] = wave # for left
         else:
+            sound_buffer[:, 0] = wave # for both 
             sound_buffer[:, 1] = wave # for both
 
-        #playing the sound
+        #play the sound
         sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play()
-        pygame.time.wait(int(duration * 1000))
+        sound.play(loops=-1) # -1 makes it play forever   
 
+        
     @staticmethod
     def square(freq, duration=1, speaker=None):
         #volume lowered so it won't hurt ears
@@ -65,8 +72,7 @@ class Tone:
             sound_buffer[:, 1] = wave
 
         sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play()
-        pygame.time.wait(int(duration * 1000))                            
+        sound.play(loops=-1)                       
 
     @staticmethod
     def white_noise(duration=1, speaker=None):
@@ -89,6 +95,5 @@ class Tone:
             sound_buffer[:, 0] = wave 
             sound_buffer[:, 1] = wave 
 
-        sound = pygame.sndarry.make_sound(sound_buffer)
-        sound.play()
-        pygame.time.wait(int(duration * 1000))            
+        sound = pygame.sndarray.make_sound(sound_buffer)
+        sound.play(loops=-1)
