@@ -35,27 +35,35 @@ class Tone:
         elif speaker == 'l':
             sound_buffer[:, 0] = wave # for left
         else:
-            sound_buffer[:, 1] = wave # for both        
+            sound_buffer[:, 1] = wave # for both
 
-        num_samples = int(round(duration * sample_rate))
+        #playing the sound
+        sound = pygame.sndarray.make_sound(sound_buffer)
+        sound.play()
+        pygame.time.wait(int(duration * 1000))
 
-        sound_buffer = numpy.zeros((num_samples, 2), dtype = numpy.int16)
-        amplitude = 2 ** (bits - 1) - 1
+    @staticmethod
+    def square(freq, duration=1, speaker=None):
+        #volume lowered so it won't hurt ears
+        amplitude = (2 ** (bits - 1) -1) * 0.5
 
-        for sample_num in range(num_samples):
-            t = float(sample_num) / sample_rate
+        #time array
+        t = numpy.linspace(0, duration, int(sample_rate * duration), False)
 
-            #generating x cordinate
-            sine = sin_x(amplitude, freq, t)
+        #formula for square wave
+        wave = amplitude * numpy.sign(numpy.sin(2 * numpy.pi * freq * t))
 
-            if speaker == 'r':
-                sound_buffer[sample_num][1] = sine 
-            if speaker == 'l':
-                sound_buffer[sample_num][0] = sine 
-            else:
-                sound_buffer[sample_num][1] = sine 
-                sound_buffer[sample_num][0] = sine        
+        #making stereo buffer(same as above)
+        sound_buffer = numpy.zeros((len(wave), 2), dtype=numpy.int16)
+
+        if speaker == 'r':
+            sound_buffer[:, 1] = wave
+        elif speaker == 'l':
+            sound_buffer[:, 0] = wave 
+        else:
+            sound_buffer[:, 0] = wave 
+            sound_buffer[:, 1] = wave
 
         sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=1, maxtime=int(duration * 1000))
-        time.sleep(duration)        
+        sound.play()
+        pygame.time.wait(int(duration * 1000))                            
