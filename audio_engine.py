@@ -67,3 +67,28 @@ class Tone:
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play()
         pygame.time.wait(int(duration * 1000))                            
+
+    @staticmethod
+    def white_noise(duration=1, speaker=None):
+        #volume lowered more for noise
+        amplitude = (2 ** (bits - 1) -1) * 0.3
+
+        num_samples = int(sample_rate * duration)
+
+        #random noise formula
+        wave = numpy.random.uniform(-amplitude, amplitude, num_samples)
+
+        #making stereo buffer again
+        sound_buffer = numpy.zeros((len(wave), 2), dtype=numpy.int16)
+
+        if speaker == 'r':
+            sound_buffer[:, 1] = wave 
+        elif speaker == 'l':
+            sound_buffer[:, 0] = wave 
+        else:
+            sound_buffer[:, 0] = wave 
+            sound_buffer[:, 1] = wave 
+
+        sound = pygame.sndarry.make_sound(sound_buffer)
+        sound.play()
+        pygame.time.wait(int(duration * 1000))            

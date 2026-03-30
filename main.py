@@ -18,6 +18,7 @@ while running:
             running = False 
 
         #This to see which key is pressed
+        if event.type == pygame.KEYDOWN:   
             if event.key == pygame.K_1:
                 print("Playing Sine...")
                 Tone.sine(440, duration=1)
