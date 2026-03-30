@@ -99,3 +99,31 @@ class Tone:
 
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play(loops=-1)
+
+    @staticmethod 
+    def brown_noise(speaker=None):
+        Tone.stop()
+        amplitude = (2 ** (bits - 1) - 1) * 0.3
+
+        #will generate 5 seconds of noise
+        num_samples = sample_rate * 5
+        white = numpy.random.uniform(-1, 1, num_samples)
+
+        #Math trick: BRown noise = sum of white noise so
+        brown = numpy.cumsum(white)
+        #trying to remove distortion
+        brown = brown / numpy.max(numpy.abs(brown)) * amplitude 
+
+        sound_buffer = numpy.zeros((len(brown), 2), dtype=numpy.int16)
+
+        #speaker thing
+        if speaker == 'r':
+            sound_buffer[:, 1] = brown
+        elif speaker == 'l':
+            sound_buffer[:,0] = brown 
+        else:
+            sound_buffer[:, 0] = brown 
+            sound_buffer[:, 1] = brown 
+
+        sound = pygame.sndarray.make_sound(sound_buffer)
+        sound.play(loops=-1)                

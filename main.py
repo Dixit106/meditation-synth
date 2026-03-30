@@ -8,7 +8,7 @@ pygame.init()
 screen = pygame.display.set_mode((400, 300))
 pygame.display.set_caption("Infinite Audio Test")
 
-print("Press 1 for Sine[432Hz (Calm)], 2 for Square[528Hz (Repair)], 3 for Pure White Noise(static), SPACE: Stop. Close window to quit.")
+print("Press 1 for Sine[432Hz (Calm)] | 2 for Square[528Hz (Repair)] | 3 for Pure White Noise (static) | 4 for Brown Noise (Focus) | SPACE: Stop | Close window to quit.")
 
 running = True 
 while running:
@@ -26,8 +26,11 @@ while running:
                 print("Playing Square[528Hz (Repair Frequency)]...")
                 Tone.square(528)
             elif event.key == pygame.K_3:
-                print("Playing Pure White Noise(Static)...")
-                Tone.white_noise()    
+                print("Playing Pure White Noise (Static)...")
+                Tone.white_noise() 
+            elif event.key == pygame.K_4:
+                print("Playing Brown Noise (Focus)...")
+                Tone.brown_noise()       
             elif event.key == pygame.K_SPACE:
                 print("Stopping audio.")
                 Tone.stop()            
