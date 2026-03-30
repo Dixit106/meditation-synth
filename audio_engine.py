@@ -103,14 +103,25 @@ class Tone:
     @staticmethod 
     def brown_noise(speaker=None):
         Tone.stop()
-        amplitude = (2 ** (bits - 1) - 1) * 0.3
+        amplitude = (2 ** (bits - 1) - 1) * 0.4
 
         #will generate 5 seconds of noise
         num_samples = sample_rate * 5
         white = numpy.random.uniform(-1, 1, num_samples)
 
         #Math trick: BRown noise = sum of white noise so
-        brown = numpy.cumsum(white)
+        #Using Fast Fourier Transform will translate raw sound into frequency space
+        freqs = numpy.fft.rfft(white)
+
+        #array of no.  to divide the frequencies by
+        f_scale = numpy.arange(1, len(freqs) + 1)
+
+        #brown noise formula to divide frequencies by their positon (1/f)
+        freqs = freqs / f_scale 
+
+        #translating back to actual audio waves from frequency space
+        brown = numpy.fft.irfft(freqs)
+        
         #trying to remove distortion
         brown = brown / numpy.max(numpy.abs(brown)) * amplitude 
 
