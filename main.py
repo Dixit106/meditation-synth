@@ -1,67 +1,17 @@
-#importing stuff
-import pygame 
+#Removed everything for PyQt6
+#importing
 import sys 
-from audio_engine import Tone 
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget 
+from PyQt6.QtCore import Qt 
 
-#keyboard button press option
-pygame.init()
-screen = pygame.display.set_mode((600, 400))
-pygame.display.set_caption("Meditation Audio Engine")
+class MeditationApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-print("--- Solfeggio Frequencies ---")
-print("Press 1: Sine[432Hz (Calm)] | 2: Sine[528Hz (Repair)] | 3: 639Hz(Connection) | ")
-print("--- Noise ---")
-print("Press 4: White Noise (static) | 5: Pink Noise (Rainfall) | 6: Brown Noise (Focus) | ")
-print("--- Brainwaves (Binaural) --- [WEAR HEADPHONES!!!]")
-print("Press 7: Alpha (Light Focus) | 8: Theta (Deep Meditation) | 9: Delta (Deep Sleep)")
-print("SPACE: Stop | Close window to quit.")
+        #Setting up the main window 
+        self.setWindowTitle("Meditation Audio Engine")
+        self.setGeometry(100, 100, 800, 600) #x, y, width, height
 
-running = True 
-while running:
-    for event in pygame.event.get():
-        #will let window close properly
-        if event.type == pygame.QUIT:
-            running = False 
-
-        #This to see which key is pressed
-        if event.type == pygame.KEYDOWN:   
-            if event.key == pygame.K_1:
-                print("Playing Sine[432Hz (Calming Frequency)]...")
-                Tone.sine(432)
-                #Also sine now (previously square)
-            elif event.key == pygame.K_2:
-                print("Playing Sine[528Hz (Repair Frequency)]...")
-                Tone.sine(528)
-                #639Hz
-            elif event.key == pygame.K_3:
-                print("Playing 638Hz (Connection)...")
-                Tone.sine(628)
-                #White Noise
-            elif event.key == pygame.K_4:
-                print("Playing Pure White Noise (Static)...")
-                Tone.white_noise()
-                #Pink Noise
-            elif event.key == pygame.K_5:
-                print("Playing Pink Noise...")
-                Tone.pink_noise()    
-                #Brown Noise 
-            elif event.key == pygame.K_6:
-                print("Playing Brown Noise (Focus)...")
-                Tone.brown_noise()
-                #Binaural Beats
-            elif event.key == pygame.K_7:
-                print("Playing Alpha Binaural (200Hz base + 10Hz beat)...")
-                Tone.binaural_beat(200, 10)
-            elif event.key == pygame.K_8:
-                print("Playing Theta Binaural (200Hz base + 5Hz beat)...")
-                Tone.binaural_beat(200, 5)
-            elif event.key == pygame.K_9:
-                print("Playing Delta Binaural (200Hz base + 2.5Hz beat)...")
-                Tone.binaural_beat(200, 2.5)    
-            elif event.key == pygame.K_SPACE:
-                print("Stopping audio.")
-                Tone.stop()            
-
-Tone.stop()
-pygame.quit()
-sys.exit()
+        #CSS for the background of suitable vibe
+        self.setStyleSheet("background-color: #1E1E1E; color: #FFFFFF;")
+        
