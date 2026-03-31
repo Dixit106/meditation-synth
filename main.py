@@ -9,7 +9,7 @@ screen = pygame.display.set_mode((500, 400))
 pygame.display.set_caption("Meditation Audio Engine")
 
 print("--- Solfeggio Frequencies ---")
-print("Press 1: Sine[432Hz (Calm)] | 2: Square[528Hz (Repair)] | 3: 639Hz(Connection) | ")
+print("Press 1: Sine[432Hz (Calm)] | 2: Sine[528Hz (Repair)] | 3: 639Hz(Connection) | ")
 print("--- Noise ---")
 print("Press 4: White Noise (static) | 5: Brown Noise (Focus) | ")
 print("--- Brainwaves (Binaural) --- [WEAR HEADPHONES!!!]")
@@ -28,10 +28,10 @@ while running:
             if event.key == pygame.K_1:
                 print("Playing Sine[432Hz (Calming Frequency)]...")
                 Tone.sine(432)
-                #Square
+                #Also sine now (previously square)
             elif event.key == pygame.K_2:
-                print("Playing Square[528Hz (Repair Frequency)]...")
-                Tone.square(528)
+                print("Playing Sine[528Hz (Repair Frequency)]...")
+                Tone.sine(528)
                 #639Hz
             elif event.key == pygame.K_3:
                 print("Playing 638Hz (Connection)...")

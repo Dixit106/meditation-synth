@@ -19,7 +19,7 @@ class Tone:
     def stop():
         #This will stop any sounds currently playing
         pygame.mixer.stop()
-
+    #sine freq
     @staticmethod 
     def sine(freq, speaker=None):
         Tone.stop() #will stop old sound before new one
@@ -48,7 +48,7 @@ class Tone:
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play(loops=-1) # -1 makes it play forever   
 
-        
+    #squre freq(i am not using this though used it initially)
     @staticmethod
     def square(freq, duration=1, speaker=None):
         Tone.stop() #will stop old sound before new one
@@ -75,6 +75,7 @@ class Tone:
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play(loops=-1)                       
 
+  #white noise
     @staticmethod
     def white_noise(duration=1, speaker=None):
         Tone.stop() #will stop old sound before new one
@@ -100,6 +101,44 @@ class Tone:
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play(loops=-1)
 
+    #Pink Noise
+    @staticmethod 
+    def pink_noise(speaker=None):
+        Tone.stop()
+        #Volume at a safe middle ground
+        amplitude = (2 ** (bits - 1) - 1) * 0.4
+
+        num_samples = sample_rate * 5
+        white = numpy.random.uniform(-1, 1, num_samples)
+
+        freqs = numpy.fft.rfft(white)
+        f_scale = numpy.arange(1,  len(freqs) + 1)
+
+        #Pink noise math: divide by the square root of the frequency
+        freqs = freqs / numpy.sqrt(f_scale)
+        pink = numpy.fft.irfft(freqs)
+
+        pink = pink / numpy.max(numpy.abs(pink)) * amplitude 
+
+        sound_buffer = numpy.zeros((len(pink), 2), dtype=numpy.int16)
+
+        #speaker thing again
+        if speaker == 'r':
+            sound_buffer[:, 1] = pink 
+        elif speaker == 'l':
+            sound_buffer[:, 0] = pink 
+        else:
+            sound_buffer[:, 0] = pink 
+            sound_buffer[:, 1] = pink 
+
+        sound = pygame.sndarray.make_sound(sound_buffer)
+        sound.play(loops=-1)            
+
+
+
+
+
+    #brown noise
     @staticmethod 
     def brown_noise(speaker=None):
         Tone.stop()
@@ -139,6 +178,7 @@ class Tone:
         sound = pygame.sndarray.make_sound(sound_buffer)
         sound.play(loops=-1)                
 
+       
         #binaural_beats
     @staticmethod 
     def binaural_beat(base_freq, beat_freq):
