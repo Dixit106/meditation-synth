@@ -5,10 +5,11 @@ from audio_engine import Tone
 
 #keyboard button press option
 pygame.init()
-screen = pygame.display.set_mode((400, 300))
-pygame.display.set_caption("Infinite Audio Test")
+screen = pygame.display.set_mode((500, 400))
+pygame.display.set_caption("Meditation Audio Engine")
 
-print("Press 1 for Sine[432Hz (Calm)] | 2 for Square[528Hz (Repair)] | 3 for Pure White Noise (static) | 4 for Brown Noise (Focus) | SPACE: Stop | Close window to quit.")
+print("--- Solfeggio Frequencies ---")
+print("Press 1: Sine[432Hz (Calm)] | 2: Square[528Hz (Repair)] | 3: 639Hz(Connection) | 4 for Brown Noise (Focus) | SPACE: Stop | Close window to quit.")
 
 running = True 
 while running:
@@ -22,13 +23,20 @@ while running:
             if event.key == pygame.K_1:
                 print("Playing Sine[432Hz (Calming Frequency)]...")
                 Tone.sine(432)
+                #Square
             elif event.key == pygame.K_2:
                 print("Playing Square[528Hz (Repair Frequency)]...")
                 Tone.square(528)
+                #639Hz
             elif event.key == pygame.K_3:
-                print("Playing Pure White Noise (Static)...")
-                Tone.white_noise() 
+                print("Playing 638Hz (Connection)...")
+                Tone.sine(628)
+                #White Noise
             elif event.key == pygame.K_4:
+                print("Playing Pure White Noise (Static)...")
+                Tone.white_noise()
+                #Brown Noise 
+            elif event.key == pygame.K_5:
                 print("Playing Brown Noise (Focus)...")
                 Tone.brown_noise()       
             elif event.key == pygame.K_SPACE:
