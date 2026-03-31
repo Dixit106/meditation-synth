@@ -15,18 +15,38 @@ class MeditationApp(QMainWindow):
         #CSS for the background of suitable vibe
         self.setStyleSheet("background-color: #1E1E1E; color: #FFFFFF;")
 
-        #Creating a basic layout
-        layout = QVBoxLayout()
+        #Creating main vertical layout
+        main_layout = QVBoxLayout()
 
-        #Add a test title
-        title = QLabel("Welcome to the UI")
+        #App Title
+        title = QLabel("Meditation-Synth")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("font-size: 24px; font-weight:bold; margin-top: 20px;")
-        layout.addWidget(title)
+        title.setStyleSheet("font-size: 28px; font-weight:bold; margin-top: 20px;")
+        main_layout.addWidget(title)
+
+        #-- The 3 Columns --
+        #QHboxLayout arranges things side by side (horizontally)
+        columns_layout = QHBoxLayout()
+
+        #Column 1: Solfeggio
+        col1 = QVBoxLayout()
+        col1_title = QLabel("Solfeggio Frequencies")
+        col1_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        col1_title.setStyleSheet("font-size: 18px; color: #88CCFF;") # Light Blue
+        col1.addWidget(col1_title)
+        col1.addStretch() #Will push title to the top
+
+
+
+
+
+
+
+
 
         #setting layout at the center of the window
         container = QWidget()
-        container.setLayout(layout)
+        container.setLayout(main_layout)
         self.setCentralWidget(container)
 
 if __name__ == "__main__":
