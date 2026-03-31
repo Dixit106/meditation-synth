@@ -5,15 +5,15 @@ from audio_engine import Tone
 
 #keyboard button press option
 pygame.init()
-screen = pygame.display.set_mode((500, 400))
+screen = pygame.display.set_mode((600, 400))
 pygame.display.set_caption("Meditation Audio Engine")
 
 print("--- Solfeggio Frequencies ---")
 print("Press 1: Sine[432Hz (Calm)] | 2: Sine[528Hz (Repair)] | 3: 639Hz(Connection) | ")
 print("--- Noise ---")
-print("Press 4: White Noise (static) | 5: Brown Noise (Focus) | ")
+print("Press 4: White Noise (static) | 5: Pink Noise (Rainfall) | 6: Brown Noise (Focus) | ")
 print("--- Brainwaves (Binaural) --- [WEAR HEADPHONES!!!]")
-print("Press 6: Alpha (Light Focus) | 7: Theta (Deep Meditation)")
+print("Press 7: Alpha (Light Focus) | 8: Theta (Deep Meditation) | 9: Delta (Deep Sleep)")
 print("SPACE: Stop | Close window to quit.")
 
 running = True 
@@ -40,17 +40,24 @@ while running:
             elif event.key == pygame.K_4:
                 print("Playing Pure White Noise (Static)...")
                 Tone.white_noise()
-                #Brown Noise 
+                #Pink Noise
             elif event.key == pygame.K_5:
+                print("Playing Pink Noise...")
+                Tone.pink_noise()    
+                #Brown Noise 
+            elif event.key == pygame.K_6:
                 print("Playing Brown Noise (Focus)...")
                 Tone.brown_noise()
                 #Binaural Beats
-            elif event.key == pygame.K_6:
+            elif event.key == pygame.K_7:
                 print("Playing Alpha Binaural (200Hz base + 10Hz beat)...")
                 Tone.binaural_beat(200, 10)
-            elif event.key == pygame.K_7:
+            elif event.key == pygame.K_8:
                 print("Playing Theta Binaural (200Hz base + 5Hz beat)...")
                 Tone.binaural_beat(200, 5)
+            elif event.key == pygame.K_9:
+                print("Playing Delta Binaural (200Hz base + 2.5Hz beat)...")
+                Tone.binaural_beat(200, 2.5)    
             elif event.key == pygame.K_SPACE:
                 print("Stopping audio.")
                 Tone.stop()            

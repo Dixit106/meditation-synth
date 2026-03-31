@@ -106,7 +106,7 @@ class Tone:
     def pink_noise(speaker=None):
         Tone.stop()
         #Volume at a safe middle ground
-        amplitude = (2 ** (bits - 1) - 1) * 0.4
+        amplitude = (2 ** (bits - 1) - 1) * 0.3
 
         num_samples = sample_rate * 5
         white = numpy.random.uniform(-1, 1, num_samples)
