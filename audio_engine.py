@@ -140,25 +140,25 @@ class Tone:
         sound.play(loops=-1)                
 
         #binaural_beats
-        @staticmethod 
-        def binaaural_beat(base_freq, beat_freq):
-            Tone.stop()
-            #Volume low for meditation
-            amplitude = (2 ** (bits - 1) - 1) * 0.2
+    @staticmethod 
+    def binaural_beat(base_freq, beat_freq):
+        Tone.stop()
+        #Volume low for meditation
+        amplitude = (2 ** (bits - 1) - 1) * 0.2
 
-            t = numpy.linspace(0, 1, sample_rate, False)
+        t = numpy.linspace(0, 1, sample_rate, False)
 
-            #Left ear gets the normal base frequency
-            left_wave = amplitude * numpy.sin(2 * numpy.pi * base_freq * t)
+        #Left ear gets the normal base frequency
+        left_wave = amplitude * numpy.sin(2 * numpy.pi * base_freq * t)
 
-            #right ear gets the base and the tiny beat difference
-            right_wave = amplitude * numpy.sin(2 * numpy.pi * (base_freq + beat_freq) * t)
+        #right ear gets the base and the tiny beat difference
+        right_wave = amplitude * numpy.sin(2 * numpy.pi * (base_freq + beat_freq) * t)
 
-            sound_buffer = numpy.zeros((len(t), 2), dtype=numpy.int16)
+        sound_buffer = numpy.zeros((len(t), 2), dtype=numpy.int16)
 
-            #exact waves for exact ears
-            sound_buffer[:, 0] = left_wave #Left speaker
-            sound_buffer[:, 1] = right_wave #Right speaker
+        #exact waves for exact ears
+        sound_buffer[:, 0] = left_wave #Left speaker
+        sound_buffer[:, 1] = right_wave #Right speaker
 
-            sound = pygame.sndarray.make_sound(sound_buffer)
-            sound.play(loops=-1)
+        sound = pygame.sndarray.make_sound(sound_buffer)
+        sound.play(loops=-1)

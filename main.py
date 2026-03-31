@@ -9,7 +9,12 @@ screen = pygame.display.set_mode((500, 400))
 pygame.display.set_caption("Meditation Audio Engine")
 
 print("--- Solfeggio Frequencies ---")
-print("Press 1: Sine[432Hz (Calm)] | 2: Square[528Hz (Repair)] | 3: 639Hz(Connection) | 4 for Brown Noise (Focus) | SPACE: Stop | Close window to quit.")
+print("Press 1: Sine[432Hz (Calm)] | 2: Square[528Hz (Repair)] | 3: 639Hz(Connection) | ")
+print("--- Noise ---")
+print("Press 4: White Noise (static) | 5: Brown Noise (Focus) | ")
+print("--- Brainwaves (Binaural) --- [WEAR HEADPHONES!!!]")
+print("Press 6: Alpha (Light Focus) | 7: Theta (Deep Meditation)")
+print("SPACE: Stop | Close window to quit.")
 
 running = True 
 while running:
@@ -38,7 +43,14 @@ while running:
                 #Brown Noise 
             elif event.key == pygame.K_5:
                 print("Playing Brown Noise (Focus)...")
-                Tone.brown_noise()       
+                Tone.brown_noise()
+                #Binaural Beats
+            elif event.key == pygame.K_6:
+                print("Playing Alpha Binaural (200Hz base + 10Hz beat)...")
+                Tone.binaural_beat(200, 10)
+            elif event.key == pygame.K_7:
+                print("Playing Theta Binaural (200Hz base + 5Hz beat)...")
+                Tone.binaural_beat(200, 5)
             elif event.key == pygame.K_SPACE:
                 print("Stopping audio.")
                 Tone.stop()            
