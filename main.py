@@ -1,7 +1,7 @@
 #Removed everything for PyQt6
 #importing
 import sys 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget 
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget 
 from PyQt6.QtCore import Qt 
 
 class MeditationApp(QMainWindow):
@@ -36,13 +36,29 @@ class MeditationApp(QMainWindow):
         col1.addWidget(col1_title)
         col1.addStretch() #Will push title to the top
 
+        #Column 2: Noise
+        col2 = QVBoxLayout()
+        col2_title = QLabel("Atmospheric Noise")
+        col2_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        col2_title.setStyleSheet("font-size: 18px; color: #AADD88;") #Light green
+        col2.addWidget(col2_title)
+        col2.addStretch()
 
+        #Column 3: Brainwaves
+        col3 = QVBoxLayout()
+        col3_title = QLabel("Binaural Beats")
+        col3_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        col3_title.setStyleSheet("font-size: 18px; color: #DDAA88;") #Light organge
+        col3.addWidget(col3_title)
+        col3.addStretch()
 
+        #Adding the 3 vertical columns into horizontal layout
+        columns_layout.addLayout(col1)
+        columns_layout.addLayout(col2)
+        columns_layout.addLayout(col3)
 
-
-
-
-
+        #Adding the columns to the main layout
+        main_layout.addLayout(columns_layout)
 
         #setting layout at the center of the window
         container = QWidget()
@@ -51,6 +67,10 @@ class MeditationApp(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+
+    #SILENCING MY ARCH LINUX WARNING!
+    app.setStyle("Fusion")   
+
     window = MeditationApp()
     window.show()
 
