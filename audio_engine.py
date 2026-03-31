@@ -24,7 +24,7 @@ class Tone:
     def sine(freq, speaker=None):
         Tone.stop() #will stop old sound before new one
         #max volume for 16 bit audio
-        amplitude = 2 ** (bits - 1) - 1
+        amplitude = (2 ** (bits - 1) - 1) * 0.2 #tuning it more down so it won't hurt ears
 
         #to generate time array using numpy
         t = numpy.linspace(0, 1,sample_rate, False)
@@ -53,7 +53,7 @@ class Tone:
     def square(freq, duration=1, speaker=None):
         Tone.stop() #will stop old sound before new one
         #volume lowered so it won't hurt ears
-        amplitude = (2 ** (bits - 1) -1) * 0.5
+        amplitude = (2 ** (bits - 1) -1) * 0.1 #turned down even more
 
         #time array
         t = numpy.linspace(0, duration, int(sample_rate * duration), False)
@@ -79,7 +79,7 @@ class Tone:
     def white_noise(duration=1, speaker=None):
         Tone.stop() #will stop old sound before new one
         #volume lowered more for noise
-        amplitude = (2 ** (bits - 1) -1) * 0.3
+        amplitude = (2 ** (bits - 1) -1) * 0.1 #turned down to match others
 
         num_samples = int(sample_rate * duration)
 
@@ -103,7 +103,7 @@ class Tone:
     @staticmethod 
     def brown_noise(speaker=None):
         Tone.stop()
-        amplitude = (2 ** (bits - 1) - 1) * 0.4
+        amplitude = (2 ** (bits - 1) - 1) * 0.9 #turning up so we can hear it
 
         #will generate 5 seconds of noise
         num_samples = sample_rate * 5
