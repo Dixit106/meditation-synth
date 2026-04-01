@@ -70,11 +70,13 @@ class Visualizer(QWidget):
                 painter.drawLine(old_x, int(old_y), x, int(y1))
 
                 # To Draw second wave slightly dimmer
-                pen.setAlpha(100)
+                dim_color = QColor(self.wave_color)
+                dim_color.setAlpha(100)
+                pen.setColor(dim_color)
                 painter.setPen(pen)
                 painter.drawLine(old_x, int(old_y2), x, int(y2))
 
-                pen.setAlpha(225) # Will Reset the brightness
+                pen.setColor(self.wave_color) # Will Reset the brightness
                 painter.setPen(pen)
 
                 old_y = y1 
@@ -196,7 +198,7 @@ class MeditationApp(QMainWindow):
             }                       
             QPushButton:hover { background-color: #FF2222; }   
         """)
-        stop_btn.clicked.connect(lambda: Tone.stop())
+        stop_btn.clicked.connect(self.stop_audio)
         main_layout.addWidget(stop_btn)
 
         #setting layout at the center of the window
