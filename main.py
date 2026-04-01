@@ -4,6 +4,9 @@ import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget 
 from PyQt6.QtCore import Qt 
 
+#Bringing my custom math engine
+from audio_engine import Tone 
+
 class MeditationApp(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -35,6 +38,20 @@ class MeditationApp(QMainWindow):
         col1_title.setStyleSheet("font-size: 18px; color: #88CCFF;") # Light Blue
         col1.addWidget(col1_title)
         col1.addStretch() #Will push title to the top
+
+        #Wiring th buttons for column1
+        btn_432 = self.create_btn("432Hz (Calming)", "#88CCFF")
+        btn_432.clicked.connect(lambda: Tone.sine(432))
+        col1.addWidget(btn_432)
+
+        btn_528 = self.create_btn("528Hz (Repair)", "#88CCFF")
+        btn_528.clicked.connect(lambda: Tone.sine(528))
+        col1.addWidget(btn_528)
+
+        btn_639 = self.create_btn("639Hz (Connection)", "#88CCFF")
+        btn_639.clicked.connect(lambda: Tone.sine(639))
+        col1.addWidget(btn_639)
+        col1.addStretch()
 
         #Column 2: Noise
         col2 = QVBoxLayout()
