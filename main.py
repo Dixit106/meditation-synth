@@ -205,7 +205,27 @@ class MeditationApp(QMainWindow):
         self.setCentralWidget(container)
 
     #helper fxn to trigger both Audio and Visuals at the same time
-        
+    def play_sound(self, wave_type, freq, color):
+        if wave_type == "sine":
+            Tone.sine(freq)
+            self.vis.set_mode("sine", color)
+        elif wave_type == "white":
+            Tone.white_noise()
+            self.vis.set_mode("noise", color)
+        elif wave_type == "pink":
+            Tone.pink_noise()
+            self.vis.set_mode("noise", color)
+        elif wave_type == "brown":
+            Tone.brown_noise()
+            self.vis.set_mode("noise", color)
+        elif wave_type == "binaural":
+            base, beat = freq 
+            Tone.binaural_beat(base, beat)
+            self.vis.set_mode("binaural", color)
+
+        def stop_audio(self):
+            Tone.stop()
+            self.vis.set_mode("idle", "#FFFFFF")                            
 
     #helper fxn to make buttons look good
     def create_btn(self, text, color):
