@@ -122,15 +122,15 @@ class MeditationApp(QMainWindow):
 
         #Wiring th buttons for column1
         btn_432 = self.create_btn("432Hz (Calming)", "#88CCFF")
-        btn_432.clicked.connect(lambda: Tone.sine(432))
+        btn_432.clicked.connect(lambda: self.play_sound("sine", 432, "#88CCFF"))
         col1.addWidget(btn_432)
 
         btn_528 = self.create_btn("528Hz (Repair)", "#88CCFF")
-        btn_528.clicked.connect(lambda: Tone.sine(528))
+        btn_528.clicked.connect(lambda: self.play_sound("sine", 528, "#88CCFF"))
         col1.addWidget(btn_528)
 
         btn_639 = self.create_btn("639Hz (Connection)", "#88CCFF")
-        btn_639.clicked.connect(lambda: Tone.sine(639))
+        btn_639.clicked.connect(lambda: self.play_sound("sine", 639, "#88CCFF"))
         col1.addWidget(btn_639)
         col1.addStretch()
 
@@ -142,15 +142,15 @@ class MeditationApp(QMainWindow):
         col2.addWidget(col2_title)
 
         btn_white = self.create_btn("White (Static)", "#AADD88")
-        btn_white.clicked.connect(lambda: Tone.white_noise())
+        btn_white.clicked.connect(lambda: self.play_sound("white", 0, "#AADD88"))
         col2.addWidget(btn_white)
 
         btn_pink = self.create_btn("Pink (Rainfall)", "#AADD88")
-        btn_pink.clicked.connect(lambda: Tone.pink_noise())
+        btn_pink.clicked.connect(lambda: self.play_sound("pink", 0, "#AADD88"))
         col2.addWidget(btn_pink)
 
         btn_brown = self.create_btn("Brown (Waterfall)", "#AADD88")
-        btn_brown.clicked.connect(lambda: Tone.brown_noise())
+        btn_brown.clicked.connect(lambda: self.play_sound("brown", 0, "#AADD88"))
         col2.addWidget(btn_brown)
         col2.addStretch()
 
@@ -162,15 +162,15 @@ class MeditationApp(QMainWindow):
         col3.addWidget(col3_title)
 
         btn_alpha = self.create_btn("Alpha (Focus)", "#DDAA88")
-        btn_alpha.clicked.connect(lambda: Tone.binaural_beat(200, 10))
+        btn_alpha.clicked.connect(lambda: self.play_sound("binaural", (200, 10), "#DDAA88"))
         col3.addWidget(btn_alpha)
 
         btn_theta = self.create_btn("Theta (Deep)", "#DDAA88")
-        btn_theta.clicked.connect(lambda: Tone.binaural_beat(200, 5))
+        btn_theta.clicked.connect(lambda: self.play_sound("binaural", (200, 5), "#DDAA88"))
         col3.addWidget(btn_theta)
 
         btn_delta = self.create_btn("Delta (Sleep)", "#DDAA88")
-        btn_delta.clicked.connect(lambda: Tone.binaural_beat(200, 2.5))
+        btn_delta.clicked.connect(lambda: self.play_sound("binaural", (200, 2.5), "#DDAA88"))
         col3.addWidget(btn_delta)
         col3.addStretch()
 
@@ -223,9 +223,9 @@ class MeditationApp(QMainWindow):
             Tone.binaural_beat(base, beat)
             self.vis.set_mode("binaural", color)
 
-        def stop_audio(self):
-            Tone.stop()
-            self.vis.set_mode("idle", "#FFFFFF")                            
+    def stop_audio(self):
+        Tone.stop()
+        self.vis.set_mode("idle", "#FFFFFF")                            
 
     #helper fxn to make buttons look good
     def create_btn(self, text, color):
