@@ -1,7 +1,7 @@
 #Removed everything for PyQt6
 #importing
 import sys 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget 
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QPushButton 
 from PyQt6.QtCore import Qt 
 
 #Bringing my custom math engine
@@ -99,6 +99,20 @@ class MeditationApp(QMainWindow):
 
         #Adding the columns to the main layout
         main_layout.addLayout(columns_layout)
+
+        # --- BIG STOP BUTTON ---
+        main_layout.addSpacing(20)
+        stop_btn = QPushButton("STOP AUDIO")
+        stop_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        stop_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #FF444; color: white; font-size: 18px;
+                font-weight: bold; border-radius: 8px; padding: 15px;                                  
+            }                       
+            QPushButton:hover { background-color: #FF2222; }   
+        """)
+        stop_btn.clicked.connect(lambda: Tone.stop())
+        main_layout.addWidget(stop_btn)
 
         #setting layout at the center of the window
         container = QWidget()
