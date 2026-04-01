@@ -1,11 +1,38 @@
 #Removed everything for PyQt6
 #importing
-import sys 
+import sys
+import random 
+import math  
 from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QPushButton 
-from PyQt6.QtCore import Qt 
+from PyQt6.QtCore import Qt, QTimer 
+from PyQt6.QtGui import QPainter, QPen, QColor  
 
 #Bringing my custom math engine
 from audio_engine import Tone 
+
+# -- The Math Visualizer --
+class Visualizer(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setFixedHeight(120) #This will be height of the animation box
+        self.mode = "idle"
+        self.wave_color = QColor("#FFFFFF")
+        self.phase = 0.0
+
+        # Runs the animation at 60 FPS ( :) )
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.animate)
+        self.timer.start(16)
+
+    def animate(self):
+        self.phase += 0.15 #Will be the speed of the wave movement
+        self.update() # Something about triggering the paintEvent to redraw
+
+    def set_mode(self, mode, color_hex):
+        self.mode = mode
+        self.wave_color = QColor(color_hex)
+        
+                
 
 class MeditationApp(QMainWindow):
     def __init__(self):
