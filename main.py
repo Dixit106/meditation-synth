@@ -239,7 +239,19 @@ class MeditationApp(QMainWindow):
         self.setCentralWidget(container)
 
     #helper fxn to trigger both Audio and Visuals at the same time
-    def play_sound(self, wave_type, freq, color):
+    def play_sound(self, wave_type, freq, color, clicked_btn=None):
+
+        #Reset all buttons to  default dark grey
+        for btn in self.all_buttons:
+            btn.setStyleSheet(btn.default_style)
+
+        #Making the clicked button brightly colored
+        if clicked_btn:
+            clicked_btn.setStyleSheet(clicked_btn.active_style)
+
+        #To make sure vol is 100% in case we were fading out previously
+        Tone.set_volume(1.0)    
+
         if wave_type == "sine":
             Tone.sine(freq)
             self.vis.set_mode("sine", color)
@@ -259,7 +271,12 @@ class MeditationApp(QMainWindow):
 
     def stop_audio(self):
         Tone.stop()
-        self.vis.set_mode("idle", "#FFFFFF")                            
+        self.vis.set_mode("idle", "#FFFFFF")
+        self.countdown_timer.stop()
+        self.time_display.setText("00:00")
+
+        for btn in self.all_buttons:
+            btn.setStyleSheet(btn.default_style)                            
 
     #helper fxn to make buttons look good
     def create_btn(self, text, color):
