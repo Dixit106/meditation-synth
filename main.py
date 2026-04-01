@@ -32,7 +32,36 @@ class Visualizer(QWidget):
         self.mode = mode
         self.wave_color = QColor(color_hex)
         
-                
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        w = self.width()
+        h = self.height()
+        mid_y = h / 2
+
+        #Seetingup the glowing pen
+        pen = QPen(self.wave_color)
+        pen.setWidth(3)
+        painter.setPen(pen)
+
+        old_x, old_y = 0, mid_y 
+        old_y2 = mid_y # For the binaural second wave
+
+        for x in range(0, w, 4): #Calculate a point every 4 pixels for somethign(animation)
+
+            if self.mode == "sine":
+                # Smooth math wave
+                y = mid_y + math.sin(x * 0.05 + self.phase) * 40
+                painter.drawLine(old_x, int(old_y), x, int(y))
+                old_y = y 
+
+            elif self.mode == "noise":
+                # Chaotic random spikes
+                y = mid_y + random.uniform(-40, 40)
+                painter.drawLine(old_x, int(old_y), x, int(y))
+                old_y = y 
+                    
 
 class MeditationApp(QMainWindow):
     def __init__(self):
