@@ -61,7 +61,30 @@ class Visualizer(QWidget):
                 y = mid_y + random.uniform(-40, 40)
                 painter.drawLine(old_x, int(old_y), x, int(y))
                 old_y = y 
-                    
+
+            elif self.mode == "binaural":
+                # Two overlapping, slightly different waves as its binaural
+                y1 = mid_y + math.sin(x * 0.04 + self.phase) * 30
+                y2 = mid_y + math.sin(x * 0.05 + self.phase) * 30
+
+                painter.drawLine(old_x, int(old_y), x, int(y1))
+
+                # To Draw second wave slightly dimmer
+                pen.setAlpha(100)
+                painter.setPen(pen)
+                painter.drawLine(old_x, int(old_y2), x, int(y2))
+
+                pen.setAlpha(225) # Will Reset the brightness
+                painter.setPen(pen)
+
+                old_y = y1 
+                old_y2 = y2 
+
+            else:
+                # Flatline when idle
+                painter.drawLine(old_x, int(mid_y), x, int(mid_y))
+
+            old_x = x                 
 
 class MeditationApp(QMainWindow):
     def __init__(self):
@@ -72,7 +95,7 @@ class MeditationApp(QMainWindow):
         self.setGeometry(100, 100, 800, 600) #x, y, width, height
 
         #CSS for the background of suitable vibe
-        self.setStyleSheet("background-color: #1E1E1E; color: #FFFFFF;")
+        self.setStyleSheet("background-color: #121212; color: #FFFFFF;")
 
         #Creating main vertical layout
         main_layout = QVBoxLayout()
@@ -86,6 +109,9 @@ class MeditationApp(QMainWindow):
         #-- The 3 Columns --
         #QHboxLayout arranges things side by side (horizontally)
         columns_layout = QHBoxLayout()
+
+        # Creating our new visualizer!
+        self.vis = Visualizer()
 
         #Column 1: Solfeggio
         col1 = QVBoxLayout()
@@ -156,6 +182,9 @@ class MeditationApp(QMainWindow):
         #Adding the columns to the main layout
         main_layout.addLayout(columns_layout)
 
+        # Adding Visualizer Here too
+        main_layout.addWidget(self.vis)
+
         # --- BIG STOP BUTTON ---
         main_layout.addSpacing(20)
         stop_btn = QPushButton("STOP AUDIO")
@@ -174,6 +203,9 @@ class MeditationApp(QMainWindow):
         container = QWidget()
         container.setLayout(main_layout)
         self.setCentralWidget(container)
+
+    #helper fxn to trigger both Audio and Visuals at the same time
+        
 
     #helper fxn to make buttons look good
     def create_btn(self, text, color):
