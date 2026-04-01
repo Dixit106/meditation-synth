@@ -37,7 +37,6 @@ class MeditationApp(QMainWindow):
         col1_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         col1_title.setStyleSheet("font-size: 18px; color: #88CCFF;") # Light Blue
         col1.addWidget(col1_title)
-        col1.addStretch() #Will push title to the top
 
         #Wiring th buttons for column1
         btn_432 = self.create_btn("432Hz (Calming)", "#88CCFF")
@@ -59,6 +58,18 @@ class MeditationApp(QMainWindow):
         col2_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         col2_title.setStyleSheet("font-size: 18px; color: #AADD88;") #Light green
         col2.addWidget(col2_title)
+
+        btn_white = self.create_btn("White (Static)", "#AADD88")
+        btn_white.clicked.connect(lambda: Tone.white_noise())
+        col2.addWidget(btn_white)
+
+        btn_pink = self.create_btn("Pink (Rainfall)", "#AADD88")
+        btn_pink.clicked.connect(lambda: Tone.pink_noise())
+        col2.addWidget(btn_pink)
+
+        btn_brown = self.create_btn("Brown (Waterfall)", "#AADD88")
+        btn_brown.clicked.connect(lambda: Tone.brown_noise())
+        col2.addWidget(btn_brown)
         col2.addStretch()
 
         #Column 3: Brainwaves
@@ -67,6 +78,18 @@ class MeditationApp(QMainWindow):
         col3_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         col3_title.setStyleSheet("font-size: 18px; color: #DDAA88;") #Light organge
         col3.addWidget(col3_title)
+
+        btn_alpha = self.create_btn("Alpha (Focus)", "#DDAA88")
+        btn_alpha.clicked.connect(lambda: Tone.binaural_beat(200, 10))
+        col3.addWidget(btn_alpha)
+
+        btn_theta = self.create_btn("Theta (Deep)", "#DDAA88")
+        btn_theta.clicked.connect(lambda: Tone.binaural_beat(200, 5))
+        col3.addWidget(btn_theta)
+
+        btn_delta = self.create_btn("Delta (Sleep)", "#DDAA88")
+        btn_delta.clicked.connect(lambda: Tone.binaral_beat(200, 2.5))
+        col3.addWidget(btn_delta)
         col3.addStretch()
 
         #Adding the 3 vertical columns into horizontal layout
