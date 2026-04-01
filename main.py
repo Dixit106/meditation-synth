@@ -3,7 +3,7 @@
 import sys
 import random 
 import math  
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QPushButton 
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidget, QPushButton, QSpinBox  
 from PyQt6.QtCore import Qt, QTimer 
 from PyQt6.QtGui import QPainter, QPen, QColor  
 
@@ -102,6 +102,14 @@ class MeditationApp(QMainWindow):
         #Creating main vertical layout
         main_layout = QVBoxLayout()
 
+        #List to keep track of all buttons
+        self.all_buttons = []
+
+        #Set up the invisible countdown timer
+        self.time_left = 0
+        self.countdown_timer = QTimer()
+        self.countdown_timer.timeout.connect(self.update_timer)
+
         #App Title
         title = QLabel("Meditation-Synth")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -124,15 +132,15 @@ class MeditationApp(QMainWindow):
 
         #Wiring th buttons for column1
         btn_432 = self.create_btn("432Hz (Calming)", "#88CCFF")
-        btn_432.clicked.connect(lambda: self.play_sound("sine", 432, "#88CCFF"))
+        btn_432.clicked.connect(lambda checked=False, b=btn_432: self.play_sound("sine", 432, "#88CCFF", b))
         col1.addWidget(btn_432)
 
         btn_528 = self.create_btn("528Hz (Repair)", "#88CCFF")
-        btn_528.clicked.connect(lambda: self.play_sound("sine", 528, "#88CCFF"))
+        btn_528.clicked.connect(lambda checked=False, b=btn_528: self.play_sound("sine", 528, "#88CCFF", b))
         col1.addWidget(btn_528)
 
         btn_639 = self.create_btn("639Hz (Connection)", "#88CCFF")
-        btn_639.clicked.connect(lambda: self.play_sound("sine", 639, "#88CCFF"))
+        btn_639.clicked.connect(lambda checked=False, b=btn_639: self.play_sound("sine", 639, "#88CCFF", b))
         col1.addWidget(btn_639)
         col1.addStretch()
 
@@ -144,15 +152,15 @@ class MeditationApp(QMainWindow):
         col2.addWidget(col2_title)
 
         btn_white = self.create_btn("White (Static)", "#AADD88")
-        btn_white.clicked.connect(lambda: self.play_sound("white", 0, "#AADD88"))
+        btn_white.clicked.connect(lambda checked=False, b=btn_white: self.play_sound("white", 0, "#AADD88", b))
         col2.addWidget(btn_white)
 
         btn_pink = self.create_btn("Pink (Rainfall)", "#AADD88")
-        btn_pink.clicked.connect(lambda: self.play_sound("pink", 0, "#AADD88"))
+        btn_pink.clicked.connect(lambda checked=False, b=btn_pink: self.play_sound("pink", 0, "#AADD88", b))
         col2.addWidget(btn_pink)
 
         btn_brown = self.create_btn("Brown (Waterfall)", "#AADD88")
-        btn_brown.clicked.connect(lambda: self.play_sound("brown", 0, "#AADD88"))
+        btn_brown.clicked.connect(lambda checked=False, b=btn_brown: self.play_sound("brown", 0, "#AADD88", b))
         col2.addWidget(btn_brown)
         col2.addStretch()
 
@@ -164,15 +172,15 @@ class MeditationApp(QMainWindow):
         col3.addWidget(col3_title)
 
         btn_alpha = self.create_btn("Alpha (Focus)", "#DDAA88")
-        btn_alpha.clicked.connect(lambda: self.play_sound("binaural", (200, 10), "#DDAA88"))
+        btn_alpha.clicked.connect(lambda checked=False, b=btn_alpha: self.play_sound("binaural", (200, 10), "#DDAA88", b))
         col3.addWidget(btn_alpha)
 
         btn_theta = self.create_btn("Theta (Deep)", "#DDAA88")
-        btn_theta.clicked.connect(lambda: self.play_sound("binaural", (200, 5), "#DDAA88"))
+        btn_theta.clicked.connect(lambda checked=False, b=btn_theta: self.play_sound("binaural", (200, 5), "#DDAA88", b))
         col3.addWidget(btn_theta)
 
         btn_delta = self.create_btn("Delta (Sleep)", "#DDAA88")
-        btn_delta.clicked.connect(lambda: self.play_sound("binaural", (200, 2.5), "#DDAA88"))
+        btn_delta.clicked.connect(lambda checked=False, b=btn_delta: self.play_sound("binaural", (200, 2.5), "#DDAA88", b))
         col3.addWidget(btn_delta)
         col3.addStretch()
 
@@ -186,6 +194,30 @@ class MeditationApp(QMainWindow):
 
         # Adding Visualizer Here too
         main_layout.addWidget(self.vis)
+
+        # --- NEW TIMER UI SECTION ---
+        timer_layout = QHBoxLayout()
+
+        self.time_input = QSpinBox()
+        self.time_input.setRange(1, 120)# 1 minute to 120min
+        self.time_input.setSuffix(" min")
+        self.time_input.setStyleSheet("background: #2A2A2A; color: white; padding: 5px; font-size: 16px;")
+
+
+        start_timer_btn = QPushButton("Start Fade-Out Timer")
+        start_timer_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        start_timer_btn.setStyleSheet("background-color: #555555; color: white; padding: 10px; border-radius: 4px; font-weight: bold;")
+        start_timer_btn.clicked.connect(self.start_timer)
+
+        self.time_display = QLabel("00:00")
+        self.time_display.setStyleSheet("font-size: 24px; font-weight: bold; color: #FFFFFF;")
+
+        timer_layout.addWidget(QLabel("Meditation Duration:"))
+        timer_layout.addWidget(self.time_input)
+        timer_layout.addWidget(start_timer_btn)
+        timer_layout.addWidget(self.time_display)
+
+        main_layout.addLayout(timer_layout)
 
         # --- BIG STOP BUTTON ---
         main_layout.addSpacing(20)
