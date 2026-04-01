@@ -88,7 +88,7 @@ class MeditationApp(QMainWindow):
         col3.addWidget(btn_theta)
 
         btn_delta = self.create_btn("Delta (Sleep)", "#DDAA88")
-        btn_delta.clicked.connect(lambda: Tone.binaral_beat(200, 2.5))
+        btn_delta.clicked.connect(lambda: Tone.binaural_beat(200, 2.5))
         col3.addWidget(btn_delta)
         col3.addStretch()
 
@@ -106,7 +106,7 @@ class MeditationApp(QMainWindow):
         stop_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         stop_btn.setStyleSheet("""
             QPushButton {
-                background-color: #FF444; color: white; font-size: 18px;
+                background-color: #FF4444; color: white; font-size: 18px;
                 font-weight: bold; border-radius: 8px; padding: 15px;                                  
             }                       
             QPushButton:hover { background-color: #FF2222; }   
@@ -118,6 +118,20 @@ class MeditationApp(QMainWindow):
         container = QWidget()
         container.setLayout(main_layout)
         self.setCentralWidget(container)
+
+    #helper fxn to make buttons look good
+    def create_btn(self, text, color):
+        btn = QPushButton(text)
+        btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        btn.setStyleSheet(f"""
+            QPushButton {{
+                background-color: #2A2A2A; color: {color}; border: 1px solid {color};
+                border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;            
+            }}              
+            QPushButton:hover {{ background-color: {color}; color:#121212; }}              
+        """) 
+        return btn
+       
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
