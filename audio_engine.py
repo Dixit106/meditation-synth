@@ -1,5 +1,6 @@
 #trying to generate sin wave
 #importing part
+import sys 
 import pygame 
 import numpy 
 import math 
@@ -14,11 +15,20 @@ pygame.init()
 
 #tone class
 class Tone:
+    current_sound = None #This will be memory slot to hold the active sound
+
+    @staticmethod 
+    def set_volume(volume):
+        #To turn volume knob down during the fade-out
+        if Tone.current_sound:
+            Tone.current_sound.set_volume(volume)
 
     @staticmethod 
     def stop():
         #This will stop any sounds currently playing
         pygame.mixer.stop()
+        Tone.current_sound = None 
+    
     #sine freq
     @staticmethod 
     def sine(freq, speaker=None):
@@ -45,8 +55,9 @@ class Tone:
             sound_buffer[:, 1] = wave # for both
 
         #play the sound
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1) # -1 makes it play forever   
+        Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
+        Tone.current_sound.set_volume(1.0)#Start at max volume
+        Tone.current_sound.play(loops=-1) # -1 makes it play forever   
 
     #squre freq(i am not using this though used it initially)
     @staticmethod
@@ -98,8 +109,9 @@ class Tone:
             sound_buffer[:, 0] = wave 
             sound_buffer[:, 1] = wave 
 
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1)
+        Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
+        Tone.current_sound.set_volume(1.0)
+        Tone.current_sound.play(loops=-1)
 
     #Pink Noise
     @staticmethod 
@@ -131,8 +143,9 @@ class Tone:
             sound_buffer[:, 0] = pink 
             sound_buffer[:, 1] = pink 
 
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1)            
+        Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
+        Tone.current_sound.set_volume(1.0)
+        Tone.current_sound.play(loops=-1)            
 
 
 
@@ -175,8 +188,9 @@ class Tone:
             sound_buffer[:, 0] = brown 
             sound_buffer[:, 1] = brown 
 
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1)                
+        Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
+        Tone.current_sound.set_volume(1.0)
+        Tone.current_sound.play(loops=-1)                
 
        
         #binaural_beats
@@ -200,5 +214,6 @@ class Tone:
         sound_buffer[:, 0] = left_wave #Left speaker
         sound_buffer[:, 1] = right_wave #Right speaker
 
-        sound = pygame.sndarray.make_sound(sound_buffer)
-        sound.play(loops=-1)
+        Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
+        Tone.current_sound.set_volume(1.0)
+        Tone.current_sound.play(loops=-1)
