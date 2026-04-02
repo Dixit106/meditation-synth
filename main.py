@@ -110,6 +110,9 @@ class MeditationApp(QMainWindow):
         self.countdown_timer = QTimer()
         self.countdown_timer.timeout.connect(self.update_timer)
 
+        #to track intro is active
+        self.intro_active = True 
+
         #App Title
         title = QLabel("Meditation-Synth")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -238,11 +241,47 @@ class MeditationApp(QMainWindow):
         container.setLayout(main_layout)
         self.setCentralWidget(container)
 
+        #Floating skip label
+        self.skip_label = QLabel("Press ENTER to skip intro", self)
+        #Positining in botton right corner(x,y, width, height)
+        self.skip_label.setGeometry(600, 620, 180, 20)
+        self.skip_label.setStyleSheet("color: #888888; font-size:12px; font-style: italic; background: transparent;")
+        self.skip_label.hide() #Hidden by default
+
+        #6 sec timer to show the skip label
+        self.skip_timer = QTimer()
+        self.skip_timer.setSingleShot(True) # runs once
+        self.skip_timer.timeout.connect(self.show_skip_message)
+        self.skip_timer.start(6000) #6sec wait
+
+        #Start the intro audio
+        Tone.intro_sequence()
+
+        #Show skip label function
+    def show_skip_message(self):
+        if self.intro_active:
+            self.skip_label.show()
+
+        #Enter key to skip
+    def keyPressEvent(self, event):
+            #check if enter pressed
+        if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+            if self.intro_active:
+                self.intro_active = False 
+                self.skip_label.hide() #To hide the text
+                Tone.skip_intro() #Stop audio         
+
         #To play the intro
         Tone.intro_sequence()
 
     #helper fxn to trigger both Audio and Visuals at the same time
     def play_sound(self, wave_type, freq, color, clicked_btn=None):
+
+        #if user clicks we skip
+        if self.intro_active:
+            self.intro_active = False 
+            self.skip_label.hide()
+            Tone.skip_intro()
 
         #Reset all buttons to  default dark grey
         for btn in self.all_buttons:

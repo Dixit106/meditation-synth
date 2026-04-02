@@ -272,21 +272,22 @@ class Tone:
         Tone.intro_sound_obj.set_volume(1.0)
         Tone.intro_sound_obj.play(loops=0) #to play once and stop that's why 0
 
-    def play_voice():
-        # The Voice
-        try:
-            Tone.voice_sound_obj = pygame.mixer.Sound("voice.wav")
-            Tone.voice_sound_obj.set_volume(0.4) #Max vol for voicce
-            Tone.voice_sound_obj.play(loops=0)
-        except FileNotFoundError:
+        def play_voice():
+         # The Voice
+            try:
+                Tone.voice_sound_obj = pygame.mixer.Sound("voice.wav")
+                Tone.voice_sound_obj.set_volume(0.4) #Max vol for voicce
+                Tone.voice_sound_obj.play(loops=0)
+            except FileNotFoundError:
             #so things won't crash
-            print("Notice: 'voice.wav' not found. Playing ocean only")
+                print("Notice: 'voice.wav' not found. Playing ocean only")
 
     #Skip the voice and intro
-    Tone.voice_timer = threading.Timer(3.0, play_voice)
-    Tone.voice_timer.start()
+        Tone.voice_timer = threading.Timer(3.0, play_voice)
+        Tone.voice_timer.start()
 
     #Skip logic
+    @staticmethod
     def skip_intro():
         #Cancel the voice if not played yet
         if Tone.voice_timer:
@@ -306,5 +307,4 @@ class Tone:
         except FileNotFoundError:
             print("Notice:'click.wav' not found")                           
 
-            #the delay in voice
-    threading.Timer(3.0, play_voice).start()           
+
