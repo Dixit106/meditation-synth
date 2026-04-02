@@ -18,6 +18,11 @@ pygame.init()
 class Tone:
     current_sound = None #This will be memory slot to hold the active sound
 
+    #Memory slot for the intro
+    intro_sound_obj = None 
+    voice_sound_obj = None 
+    voice_timer = None 
+
     @staticmethod 
     def set_volume(volume):
         #To turn volume knob down during the fade-out
@@ -224,7 +229,7 @@ class Tone:
     def intro_sequence():
         #10 seconds of pure ocean atmosphere 
         duration = 10 
-        amplitude = (2 ** (bits - 1) - 1) * 1.9
+        amplitude = (2 ** (bits - 1) - 1) * 1.0
         num_samples = sample_rate * duration 
 
         #generating deep brown noise base 
@@ -263,19 +268,43 @@ class Tone:
         sound_buffer[:, 0] = ocean 
         sound_buffer[:, 1] = ocean 
 
-        intro_sound = pygame.sndarray.make_sound(sound_buffer)
-        intro_sound.set_volume(1.0)
-        intro_sound.play(loops=0) #to play once and stop that's why 0
+        Tone.intro_sound_obj = pygame.sndarray.make_sound(sound_buffer)
+        Tone.intro_sound_obj.set_volume(1.0)
+        Tone.intro_sound_obj.play(loops=0) #to play once and stop that's why 0
 
     def play_voice():
         # The Voice
         try:
-            voice_sound = pygame.mixer.Sound("voice.wav")
-            voice_sound.set_volume(0.4) #Max vol for voicce
-            voice_sound.play(loops=0)
+            Tone.voice_sound_obj = pygame.mixer.Sound("voice.wav")
+            Tone.voice_sound_obj.set_volume(0.4) #Max vol for voicce
+            Tone.voice_sound_obj.play(loops=0)
         except FileNotFoundError:
             #so things won't crash
-            print("Notice: 'voice.wav' not found. Playing ocean only")  
+            print("Notice: 'voice.wav' not found. Playing ocean only")
+
+    #Skip the voice and intro
+    Tone.voice_timer = threading.Timer(3.0, play_voice)
+    Tone.voice_timer.start()
+
+    #Skip logic
+    def skip_intro():
+        #Cancel the voice if not played yet
+        if Tone.voice_timer:
+            Tone.voice_timer.cancel()
+
+        #Stop ocean and voice instantly
+        if Tone.intro_sound_obj:
+            Tone.intro_sound_obj.stop()
+        if Tone.voice_sound_obj:
+            Tone.voice_sound_obj.stop()
+
+        #GTA sound
+        try:
+            click = pygame.mixer.Sound("click.wav")
+            click.set_volume(1.0)
+            click.play()
+        except FileNotFoundError:
+            print("Notice:'click.wav' not found")                           
 
             #the delay in voice
     threading.Timer(3.0, play_voice).start()           
