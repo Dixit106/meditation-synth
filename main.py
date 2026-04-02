@@ -295,8 +295,8 @@ class MeditationApp(QMainWindow):
                 fade_volume = self.time_left / 10.0
                 Tone.set_volume(fade_volume)
 
-            else:
-                self.stop_audio() # Time's up then stop completely
+        else:
+            self.stop_audio() # Time's up then stop completely
 
     def update_display(self):
         mins = self.time_left // 60
@@ -310,7 +310,10 @@ class MeditationApp(QMainWindow):
 
         
         btn.default_style = f"background-color: #2A2A2A; color: {color}; border: 1px solid {color}; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;"
-        btn.active_style = f"background-color: {color}; color: #121212; border: 1px solid {color};  border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;"            
+        btn.active_style = f"background-color: {color}; color: #121212; border: 1px solid {color};  border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;"
+
+        btn.setStyleSheet(btn.default_style)
+        self.all_buttons.append(btn)            
         return btn
        
 
