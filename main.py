@@ -276,19 +276,41 @@ class MeditationApp(QMainWindow):
         self.time_display.setText("00:00")
 
         for btn in self.all_buttons:
-            btn.setStyleSheet(btn.default_style)                            
+            btn.setStyleSheet(btn.default_style)
+
+    #Timer logic functions
+    def start_timer(self):
+        # Min to seconds
+        self.time_left = self.time_input.value() * 60
+        self.update_display()
+        self.countdown_timer.start(1000) #To tick every 1000 milisecond which is 1 sec
+
+    def update_timer(self):
+        if self.time_left > 0:
+            self.time_left -= 1
+            self.update_display()
+
+            #if under 10 second, lower volume by 10% per second
+            if self.time_left <= 10:
+                fade_volume = self.time_left / 10.0
+                Tone.set_volume(fade_volume)
+
+            else:
+                self.stop_audio() # Time's up then stop completely
+
+    def update_display(self):
+        mins = self.time_left // 60
+        secs = self.time_left % 60
+        self.time_display.setText(f"{mins:02d}:{secs:02d}")
 
     #helper fxn to make buttons look good
     def create_btn(self, text, color):
         btn = QPushButton(text)
         btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        btn.setStyleSheet(f"""
-            QPushButton {{
-                background-color: #2A2A2A; color: {color}; border: 1px solid {color};
-                border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;            
-            }}              
-            QPushButton:hover {{ background-color: {color}; color:#121212; }}              
-        """) 
+
+        
+        btn.default_style = f"background-color: #2A2A2A; color: {color}; border: 1px solid {color}; border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;"
+        btn.active_style = f"background-color: {color}; color: #121212; border: 1px solid {color};  border-radius: 6px; padding: 10px; font-size: 14px; font-weight: bold;"            
         return btn
        
 
