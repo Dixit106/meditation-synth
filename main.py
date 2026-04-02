@@ -238,6 +238,9 @@ class MeditationApp(QMainWindow):
         container.setLayout(main_layout)
         self.setCentralWidget(container)
 
+        #To play the intro
+        Tone.intro_sequence()
+
     #helper fxn to trigger both Audio and Visuals at the same time
     def play_sound(self, wave_type, freq, color, clicked_btn=None):
 

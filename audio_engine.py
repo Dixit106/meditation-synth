@@ -217,3 +217,37 @@ class Tone:
         Tone.current_sound = pygame.sndarray.make_sound(sound_buffer)
         Tone.current_sound.set_volume(1.0)
         Tone.current_sound.play(loops=-1)
+
+    #Ocean sound
+    @staticmethod 
+    def intro_sequence():
+        #8 seconds of pure ocean atmosphere 
+        duration = 8 
+        amplitude = (2 ** (bits - 1) - 1) * 0.7
+        num_samples = sample_rate * duration 
+
+        #generating deep brown noise base 
+        white = numpy.random.uniform(-1, 1, num_samples)
+        freqs = numpy.fft.rfft(white)
+        f_scale = numpy.arange(1, len(freqs) + 1)
+        freqs = freqs / f_scale 
+        brown = numpy.fft.irfft(freqs)
+
+        #Generating the ocean sound thing (amplitude modulation)
+        t = numpy.linspace(0, duration, num_samples, False)
+        #The crashing effect
+        envelope = (numpy.sin(2 * numpy.pi * 0.15 * t) + 1) / 2
+
+        #Multiplay the noise by the envelope!
+        ocean = brown * envelope 
+
+        #To kidna normalize and build the stereo buffer
+        ocean = ocean / numpy.max(numpy.abs(ocean)) * amplitude 
+
+        sound_buffer = numpy.zeros((len(ocean), 2), dtype=numpy.int16)
+        sound_buffer[:, 0] = ocean 
+        sound_buffer[:, 1] = ocean 
+
+        intro_sound = pygame.sndarray.make_sound(sound_buffer)
+        intro_sound.set_volume(1.0)
+        intro_sound.play(loops=0) #to play once and stop that's why 0
