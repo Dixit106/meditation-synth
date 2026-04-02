@@ -221,9 +221,9 @@ class Tone:
     #Ocean sound
     @staticmethod 
     def intro_sequence():
-        #8 seconds of pure ocean atmosphere 
-        duration = 8 
-        amplitude = (2 ** (bits - 1) - 1) * 0.7
+        #10 seconds of pure ocean atmosphere 
+        duration = 10 
+        amplitude = (2 ** (bits - 1) - 1) * 0.9
         num_samples = sample_rate * duration 
 
         #generating deep brown noise base 
@@ -241,6 +241,20 @@ class Tone:
         #Multiplay the noise by the envelope!
         ocean = brown * envelope 
 
+        #Fade in and fade out 
+        fade_duration = 2 # 2 seconds of fade in and out
+        fade_samples = sample_rate * fade_duration 
+
+        master_fade = numpy.ones(num_samples) #Array of 1s
+
+        # Slopeing the beginning from 0 to 1 
+        master_fade[:fade_samples] = numpy.linspace(0, 1, fade_samples)
+        # Slopeing the ending from 1 to 0
+        master_fade[-fade_samples:] = numpy.linspace(1, 0, fade_samples)
+
+        #applying the master fade
+        ocean = ocean * master_fade
+
         #To kidna normalize and build the stereo buffer
         ocean = ocean / numpy.max(numpy.abs(ocean)) * amplitude 
 
@@ -251,3 +265,12 @@ class Tone:
         intro_sound = pygame.sndarray.make_sound(sound_buffer)
         intro_sound.set_volume(1.0)
         intro_sound.play(loops=0) #to play once and stop that's why 0
+
+        # The Voice
+        try:
+            voice_sound = pygame.mixer.Sound("voice.wav")
+            voice_sound.set_volume(1.0) #Max vol for voicce
+            voice_sound.play(loops=0)
+        except FileNotFoundError:
+            #so things won't crash
+            print("Notice: 'voice.wav' not found. Playing ocean only")    
