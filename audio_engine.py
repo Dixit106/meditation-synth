@@ -5,6 +5,7 @@ import pygame
 import numpy 
 import math 
 import time
+import threading #needed for delay in voice 
 
 #audio quality
 bits = 16
@@ -223,7 +224,7 @@ class Tone:
     def intro_sequence():
         #10 seconds of pure ocean atmosphere 
         duration = 10 
-        amplitude = (2 ** (bits - 1) - 1) * 0.9
+        amplitude = (2 ** (bits - 1) - 1) * 1.9
         num_samples = sample_rate * duration 
 
         #generating deep brown noise base 
@@ -266,11 +267,15 @@ class Tone:
         intro_sound.set_volume(1.0)
         intro_sound.play(loops=0) #to play once and stop that's why 0
 
+    def play_voice():
         # The Voice
         try:
             voice_sound = pygame.mixer.Sound("voice.wav")
-            voice_sound.set_volume(1.0) #Max vol for voicce
+            voice_sound.set_volume(0.4) #Max vol for voicce
             voice_sound.play(loops=0)
         except FileNotFoundError:
             #so things won't crash
-            print("Notice: 'voice.wav' not found. Playing ocean only")    
+            print("Notice: 'voice.wav' not found. Playing ocean only")  
+
+            #the delay in voice
+    threading.Timer(3.0, play_voice).start()           
