@@ -242,25 +242,43 @@ class MeditationApp(QMainWindow):
         self.setCentralWidget(container)
 
         #Floating skip label
-        self.skip_label = QLabel("Press ENTER to skip intro", self)
+        self.skip_label = QLabel("", self)
         #Positining in botton right corner(x,y, width, height)
         self.skip_label.setGeometry(600, 620, 180, 20)
         self.skip_label.setStyleSheet("color: #888888; font-size:12px; font-style: italic; background: transparent;")
         self.skip_label.hide() #Hidden by default
 
-        #6 sec timer to show the skip label
-        self.skip_timer = QTimer()
-        self.skip_timer.setSingleShot(True) # runs once
-        self.skip_timer.timeout.connect(self.show_skip_message)
-        self.skip_timer.start(6000) #6sec wait
-
         #Start the intro audio
         Tone.intro_sequence()
+
+        #6 sec timer to show the skip label
+        self.voice_timer = QTimer()
+        self.voice_timer.setSingleShot(True) # runs once
+        self.voice_timer.timeout.connect(Tone.play_voice)
+        self.voice_timer.start(3000) #3sec wait
+
+        #Timer 2 skip message after 6 sec
+        self.skip_timer = QTimer()
+        self.skip_timer.setSingleShot(True)
+        self.skip_timer.timeout.connect(self.show_skip_message)
+        self.skip_timer.start(6000)
+
+        #Timer 4: to turn off intro mode after 10 seconds
+        self.end_intro_timer = QTimer()
+        self.end_intro_timer.setSingleShot(True)
+        self.end_intro_timer.timeout.connect(self.end_intro_state)
+        self.end_intro_timer.start(10000)
+
+        
 
         #Show skip label function
     def show_skip_message(self):
         if self.intro_active:
-            self.skip_label.show()
+            self.skip_label.setText("Press ENTER to skip intro")
+
+    def end_intro_state(self):
+        self.intro_active = False 
+        self.skip_label.setText("")        
 
         #Enter key to skip
     def keyPressEvent(self, event):
@@ -268,11 +286,15 @@ class MeditationApp(QMainWindow):
         if event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
             if self.intro_active:
                 self.intro_active = False 
-                self.skip_label.hide() #To hide the text
-                Tone.skip_intro() #Stop audio         
+                self.skip_label.setText("")
 
-        #To play the intro
-        Tone.intro_sequence()
+                #To stop pending timers so they don't fire late
+                self.voice_timer.stop()
+                self.skip_timer.stop()
+                self.end_intro_timer.stop()         
+
+                #To play the intro
+                Tone.intro_sequence()
 
     #helper fxn to trigger both Audio and Visuals at the same time
     def play_sound(self, wave_type, freq, color, clicked_btn=None):
@@ -280,7 +302,10 @@ class MeditationApp(QMainWindow):
         #if user clicks we skip
         if self.intro_active:
             self.intro_active = False 
-            self.skip_label.hide()
+            self.skip_label.setText("")
+            self.voice_timer.stop()
+            self.skip_timer.stop()
+            self.end_intro_timer.stop()
             Tone.skip_intro()
 
         #Reset all buttons to  default dark grey
@@ -364,9 +389,7 @@ if __name__ == "__main__":
 
     #SILENCING MY ARCH LINUX WARNING!
     app.setStyle("Fusion")   
-
     window = MeditationApp()
     window.show()
-
     #To keep app running until click X to close it 
     sys.exit(app.exec())                            
