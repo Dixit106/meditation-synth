@@ -275,10 +275,13 @@ class MeditationApp(QMainWindow):
     def show_skip_message(self):
         if self.intro_active:
             self.skip_label.setText("Press ENTER to skip intro")
+            self.skip_label.show()
+            Tone.play_click()#to play gta sound
 
     def end_intro_state(self):
         self.intro_active = False 
-        self.skip_label.setText("")        
+        self.skip_label.setText("")
+        self.skip_label.hide()        
 
         #Enter key to skip
     def keyPressEvent(self, event):
@@ -287,6 +290,7 @@ class MeditationApp(QMainWindow):
             if self.intro_active:
                 self.intro_active = False 
                 self.skip_label.setText("")
+                self.skip_label.hide()
 
                 #To stop pending timers so they don't fire late
                 self.voice_timer.stop()
@@ -294,7 +298,7 @@ class MeditationApp(QMainWindow):
                 self.end_intro_timer.stop()         
 
                 #To play the intro
-                Tone.intro_sequence()
+                Tone.skip_intro()
 
     #helper fxn to trigger both Audio and Visuals at the same time
     def play_sound(self, wave_type, freq, color, clicked_btn=None):

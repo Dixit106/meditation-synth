@@ -298,6 +298,16 @@ class Tone:
             click.set_volume(1.0)
             click.play()
         except FileNotFoundError:
-            print("Notice:'click.wav' not found")                           
+            print("Notice:'click.wav' not found")
+
+    #GTA sound when message
+    @staticmethod
+    def play_click():
+        try:
+            click = pygame.mixer.Sound("click.wav")
+            click.set_volume(1.0)
+            click.play()
+        except FileNotFoundError:
+            print("Notice: 'click.wav' not found.")                                       
 
 
