@@ -1,10 +1,12 @@
 # Meditation-Synth
-***What even is this application***
+***What even is this application:***
+
 Meditaion-Synth is a Python desktop application that generates custom frequencies, binaural beats, and atmospheric noise to help you focus, relax, or meditate.Whether you are deep in a coding session, writing, studying, or just trying to clear your head, these sounds are designed to tune out distractions.There are no downloaded MP3s or internet audio files for these frequencies or other sounds.All frequencies, binaural beats and atmospheric noise is sythesized in real-time using Mathematics and Python.
 
 
 
-***Built With***
+***Built With:***
+
 **Python**: Core logic and application structure.
 **NumPy**: Mathematics to generate sounds to make my audio_engine.
 **Pygame (pygame-ce)**: Audio buffer playback and multi-channel mixing.
@@ -12,7 +14,8 @@ Meditaion-Synth is a Python desktop application that generates custom frequencie
 
 
 
-***Images***
+***Images:***
+
 
 ![Image1](images/ss1.png)
 
@@ -24,7 +27,8 @@ Meditaion-Synth is a Python desktop application that generates custom frequencie
 
 
 
-***How to Contribute***
+***How to Contribute:***
+
 TO contribute all you have to do is simply use the app!
 **Test and Report**: Find bugs, glitches or something that can be improved.
 **Suggest Ideas**: Ideas for a new frequency you like, a different background noise or UI tweak anything that you wish.
@@ -34,7 +38,7 @@ TO contribute all you have to do is simply use the app!
 
 
 
-***Deployment***
+***Deployment:***
 
 You don't need Python or any external libraries installed to run this app. It has been packaged as a standalone Linux executable.
 
