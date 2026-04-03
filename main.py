@@ -119,6 +119,12 @@ class MeditationApp(QMainWindow):
         title.setStyleSheet("font-size: 28px; font-weight:bold; margin-top: 20px;")
         main_layout.addWidget(title)
 
+        #WARNING LABEL
+        warning_label = QLabel("⚠️ WARNING: Start with low volume. Headphones required for Binaural Beats.")
+        warning_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        warning_label.setStyleSheet("color: #FF4444; font-size: 14px; font-weight: bold; margin-bottom: 15px;")
+        main_layout.addWidget(warning_label)
+
         #-- The 3 Columns --
         #QHboxLayout arranges things side by side (horizontally)
         columns_layout = QHBoxLayout()
