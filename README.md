@@ -13,6 +13,14 @@ Meditaion-Synth is a Python desktop application that generates custom frequencie
 **PyQt6**: Runs the graphical user interface, event timers, and animation.
 
 
+***DEMO VIDEO:***
+
+
+https://github.com/user-attachments/assets/31b5b00d-2f6e-48bf-8163-ff881e78e23e
+
+
+
+
 
 ***Images:***
 
